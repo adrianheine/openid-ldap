@@ -1,0 +1,27 @@
+/**
+ * OpenID-LDAP-PHP
+ * An open source PHP-based OpenID IdP package using LDAP as backend.
+ *
+ * By Zdravko Stoychev <zdravko (at) 5group (dot) com> aka Dako.
+ * Copyright 1996-2011 by 5Group & Co. http://www.5group.com/
+ * See LICENSE file for more details.
+ */
+
+.loginurl {
+  background: #FFFFFF url('images/user.gif') no-repeat scroll 0pt 50%; 
+  padding-left: 18px;
+}
+
+#login {
+  background-color:#FFFFFF;
+  border:1px solid #CCCCCC;
+  color:#000044;
+  padding:1px;
+  text-decoration:none;
+  background: #FFFFFF url('images/user.gif') no-repeat scroll 0pt 50%;
+  padding-left: 18px;
+}
+
+#login:hover {
+    background-color:#FFF0D0;
+}
