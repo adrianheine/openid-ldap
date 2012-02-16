@@ -37,4 +37,3 @@ if (isset($_POST['submit'])) {
     // Show error message
     echo 'You can not use this page directly';
 }
-?>

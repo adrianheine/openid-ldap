@@ -81,4 +81,3 @@ require('ldap.php');
 find_ldap($userid); // lookup user and populate sreg info
 
 require('engine.php');
-?>

@@ -168,5 +168,3 @@ function test_ldap ($username, $password) {
 +    }
   
 */
-
-?>
