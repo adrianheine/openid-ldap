@@ -542,11 +542,18 @@ function checkid ( $wait ) {
 		wrap_refresh(wrap_param($profile['idp_url'],'openid.mode=accept'));
 	}
 
+	$requested_identity = $identity;
 	// make sure i am this identifier
 	if ($identity != $profile['idp_url']) {
-		debug("Invalid identity: $identity");
-		debug("IdP URL: " . $profile['idp_url']);
-		error_get($return_to, "Invalid identity: '$identity'");
+		// If mismatch is only in protocol, ignore
+		if ($profile['smart_ssl'] && substr($identity, strpos($identity, ':') + 1) ==
+			substr($profile['idp_url'], strpos($profile['idp_url'], ':') + 1)) {
+			$identity = $profile['idp_url'];
+		} else {
+			debug("Invalid identity: $identity");
+			debug("IdP URL: " . $profile['idp_url']);
+			error_get($return_to, "Invalid identity: '$identity' expected {$profile['idp_url']}");
+		}
 	}
 
 	// begin setting up return keys
@@ -608,7 +615,7 @@ function checkid ( $wait ) {
 			list ($assoc_handle, $shared_secret) = new_assoc($lifetime);
 		}
 
-		$keys['identity'] = $profile['idp_url'];
+		$keys['identity'] = $requested_identity;
 		$keys['assoc_handle'] = $assoc_handle;
 		$keys['return_to'] = $return_to;
 
@@ -735,7 +742,7 @@ function logout_mode () {
 function no_mode () {
 	global $profile, $sreg, $proto, $html, $reldir;
 
-	user_session();
+	user_session(false);
 
 	$demo_name = $proto . '://' . $_SERVER['SERVER_NAME'] . $reldir . 'joe';
         $user_name = ($sreg['fullname'] == '') ? $sreg['nickname'] : $sreg['fullname'];
@@ -1665,9 +1672,16 @@ function url_descends ( $child, $parent ) {
  * @global array $profile
  * @global array $proto
  */
-function user_session () {
+function user_session ($really_try = true) {
 	global $proto, $profile;
 
+	if ($profile['smart_ssl']) {
+		if ($really_try && !($_SERVER['HTTPS'] && $_SERVER['HTTPS'] !== 'off')) {
+			header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
+			exit();
+		}
+		session_set_cookie_params(0, '/', '', true, true);
+	}
 	session_name('OpenIDLdap_Server');
 	@session_start();
 

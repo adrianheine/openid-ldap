@@ -36,6 +36,7 @@ $GLOBALS['profile'] = array(
 #	'lifetime'	=>	1440,
 #	'paranoid'	=>	false, # EXPERIMENTAL
 #	'force_ssl'	=>	false, # EXPERIMENTAL
+#	'smart_ssl' => false, # EXPERIMENTAL
 
 	# Logging Config - Please see README before setting these
 #	'debug'		=>	false,
