@@ -2009,5 +2009,6 @@ $run_mode = (isset($_REQUEST['openid_mode'])
 // Run in the determined runmode
 debug("Run mode: $run_mode at: " . time());
 debug($_REQUEST, 'Request params');
-eval($run_mode . '_mode();');
+$run_mode .= '_mode';
+$run_mode();
 ?>
