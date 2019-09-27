@@ -471,6 +471,7 @@ function check_authentication_mode () {
 		$ok = base64_encode(hmac($shared_secret, $tokens));
 		$keys['is_valid'] = ($sig == $ok) ? 'true' : 'false';
 	}
+	$keys['ns'] = 'http://specs.openid.net/auth/2.0';
 
 	// Return the keys
 	wrap_kv($keys);
@@ -618,6 +619,12 @@ function checkid ( $wait ) {
 		$keys['identity'] = $requested_identity;
 		$keys['assoc_handle'] = $assoc_handle;
 		$keys['return_to'] = $return_to;
+		if (isset($_REQUEST['openid_ns'])) {
+			$keys['response_nonce'] = substr(date('c'), 0, 19) . "Zx";
+			$keys['op_endpoint'] = $profile['idp_url'];
+			$keys['claimed_id'] = $requested_identity;
+			$keys['ns'] = 'http://specs.openid.net/auth/2.0';
+		}
 
 		$fields = array_keys($keys);
 		$tokens = '';
@@ -1708,7 +1715,9 @@ function wrap_html ($message) {
 <head>
 <title>' . $html['page_title'] . '</title>
 <link rel="openid.server" href="' . $profile['req_url'] . '" />
+<link rel="openid2.provider" href="' . $profile['req_url'] . '" />
 <link rel="openid.delegate" href="' . $profile['idp_url'] . '" />
+<link rel="openid2.local_id" href="' . $profile['idp_url'] . '" />
 <link rel="seatbelt.config" type="application/xml" href="' . $profile['idp_url'] . '?openid.mode=sb_config" />
 ' . implode("\n", $profile['opt_headers'])  . '
 <meta name="charset" content="' . $charset . '" />
