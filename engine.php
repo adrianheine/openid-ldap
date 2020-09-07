@@ -752,7 +752,9 @@ function no_mode () {
 	user_session(false);
 
 	$demo_name = $proto . '://' . $_SERVER['SERVER_NAME'] . $reldir . 'joe';
-        $user_name = ($sreg['fullname'] == '') ? $sreg['nickname'] : $sreg['fullname'];
+  $user_name = "";
+  if (isset($sreg['fullname']) && $sreg['fullname'] !== '') $user_name = $sreg['fullname'];
+  else if (isset($sreg['nickname'])) $user_name = $sreg['nickname'];
 
 	$stat_html = ($profile['authorized'] == true  ? ' (<font color="#FB6000">logged in</font>)' : null);
 	$auth_html = ($profile['authorized'] == false ? ' | <a href="' . wrap_param($profile['idp_url'],'openid.mode=login') . '">Login</a>' : null);
