@@ -11,47 +11,6 @@
  */
 
 /**
- * LDAP connection settings
- * @name $ldap
- * @global array $GLOBALS['ldap']
- */
-$GLOBALS['ldap'] = array (
-	# Connection settings
-	'primary'		=> '10.0.0.111',
-	'fallback'		=> '10.0.0.222',
-	'protocol'		=> 3,
-	# AD specific
-	'isad'			=> true, // are we connecting to Active Directory?
-	'lookupcn'		=> true, // should we extract CN after the search?
-	# Binding account
-	'binddn'		=> 'cn=<name>,cn=users,dc=domain,dc=local',
-	'password'		=> '<pass>',
-	# User account
-	'autodn'		=> false, // extract DN from search result, ignore 'testdn'
-	'testdn'		=> 'cn=%s,cn=users,dc=domain,dc=local',
-	# Searching data
-	'searchdn'		=> 'cn=users,dc=domain,dc=local',
-	'filter'		=> '(&(objectCategory=user)(mail=*)(sAMAccountName=%s))',
-
-	# SREG names matching to LDAP attribute names
-	'nickname'		=> 'uid',
-	'email'			=> 'mail',
-	'fullname'		=> array('givenName', 'sn'),
-#	'dob'			=> '',
-#	'postcode'		=> '',
-#	'language'		=> '',
-#	'timezone'		=> '',
-#	'gender'		=> '',
-	'country'		=> 'c',
-
-	# Default SREG values (default server settings)
-	'def_language'		=> 'en',
-	'def_postcode'		=> '1000',
-	'def_timezone'		=> 'Europe/Sofia'
-);
-
-
-/**
  * Search for LDAP account by username. Populate $sreg if found
  * string $username
  */
